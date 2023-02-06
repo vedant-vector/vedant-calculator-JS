@@ -21,6 +21,8 @@ const alternate = document.getElementById("alternate");
 let sqr = 0;
 let str = "";
 let ans;
+let flag = 0;
+
 function cal() {}
 
 for (let btn of buttonSelected) {
@@ -32,11 +34,17 @@ for (let btn of buttonSelected) {
         ans = 1;
       } else {
         inputDisplay.value += content;
-        str = str + content;
+        str = content;
       }
     }
     if (ans == 1) {
       ans = Math.sqrt(str);
+      let temp = inputDisplay.value;
+      console.log(temp);
+      temp = inputDisplay.value.replace("2√" + str, ans);
+      console.log(temp);
+      inputDisplay.value = temp;
+      flag = 1;
       //   inputDisplay.value = ans;
     }
 
@@ -63,8 +71,11 @@ equal.addEventListener("click", (e) => {
     //         str.append(inputDisplay[i+1])
     //     }
     //    }
-    inputDisplay.value = ans;
-    inputDisplay.value = eval(inputDisplay.value);
+    if (flag == 1) {
+      inputDisplay.value = eval(inputDisplay.value);
+    } else {
+      inputDisplay.value = eval(inputDisplay.value);
+    }
   } catch {
     inputDisplay.value = "ERROR ";
   }
@@ -129,4 +140,41 @@ mod.addEventListener("click", () => {
 root.addEventListener("click", () => {
   inputDisplay.value += "2√";
   sqr++;
+});
+
+factorial.addEventListener("click", () => {
+  try {
+    let temp = eval(inputDisplay.value);
+    if (temp < 0) {
+      err();
+    } else if (temp === 0) {
+      inputDisplay.value = "1";
+    } else {
+      let fact = 1;
+      for (i = 1; i <= temp; i++) {
+        fact *= i;
+      }
+      inputDisplay.value = fact;
+    }
+  } catch {
+    err();
+  }
+});
+
+xToY.addEventListener("click", () => {});
+
+tenToX.addEventListener("click", () => {
+  try {
+    inputDisplay.value += "10**";
+  } catch {
+    err();
+  }
+});
+
+log.addEventListener("click", () => {
+  try {
+    inputDisplay.value += "log";
+  } catch {
+    err();
+  }
 });
