@@ -29,7 +29,7 @@ for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
     const content = e.target.textContent;
     if (sqr == 1) {
-      if (btn.matches(".printVal") !== true) {
+      if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
         sqr = 0;
         ans = 1;
       } else {
