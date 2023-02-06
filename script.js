@@ -18,6 +18,15 @@ const log = document.getElementById("log");
 const ln = document.getElementById("ln");
 const alternate = document.getElementById("alternate");
 
+const MC = document.getElementById("MC").disabled=true;
+const MR = document.getElementById("MR").disabled=true;
+
+const mPlus = document.getElementById("mPlus")
+const mMinus = document.getElementById("mMinus")
+const MS = document.getElementById("MS")
+
+
+
 let sqr = 0;
 let str = "";
 let ans;
@@ -178,3 +187,22 @@ log.addEventListener("click", () => {
     err();
   }
 });
+
+
+mPlus.addEventListener("click",()=>{
+  document.getElementById("MC").disabled = false;
+  document.getElementById("MR").disabled = false;
+})
+mMinus.addEventListener("click",()=>{
+  document.getElementById("MC").disabled = false;
+  document.getElementById("MR").disabled = false;
+})
+
+
+// sin.addEventListener("click",(e)=>{
+//   try{
+//     inputDisplay.value+= "e.target.textContent";
+//   }catch{
+//     err();
+//   }
+// })
