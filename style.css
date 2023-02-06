@@ -1,0 +1,44 @@
+/* body {
+  width: 100%;
+} */
+
+#mainDiv {
+  margin: auto;
+  width: max-content;
+}
+
+#fourth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#fifth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#sixth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#seventh {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#eightth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#nineth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
+#tenth {
+  max-width: inherit;
+  display: flex;
+  justify-content: space-between;
+}
