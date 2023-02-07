@@ -18,21 +18,27 @@ const log = document.getElementById("log");
 const ln = document.getElementById("ln");
 const alternate = document.getElementById("alternate");
 
-const MC = document.getElementById("MC").disabled=true;
-const MR = document.getElementById("MR").disabled=true;
+const MC = (document.getElementById("MC").disabled = true);
+const MR = (document.getElementById("MR").disabled = true);
 
-const mPlus = document.getElementById("mPlus")
-const mMinus = document.getElementById("mMinus")
-const MS = document.getElementById("MS")
+const mPlus = document.getElementById("mPlus");
+const mMinus = document.getElementById("mMinus");
+const MS = document.getElementById("MS");
 
-
+const change = document.getElementById("change");
 
 let sqr = 0;
 let str = "";
 let ans;
 let flag = 0;
 
-function cal() {}
+let logVar = 0;
+let logans;
+let logstr = "";
+let logFlag = 0;
+
+let lnVar = 0;
+function calLog() {}
 
 for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
@@ -57,11 +63,41 @@ for (let btn of buttonSelected) {
       //   inputDisplay.value = ans;
     }
 
+    if (logVar == 1) {
+      if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
+        logVar = 0;
+        logans = 1;
+      } else {
+        inputDisplay.value += content;
+        logstr += content;
+      }
+    }
+    if (logans == 1) {
+      if (lnVar == 1) {
+        logans = Math.log(logstr);
+        let temp = inputDisplay.value;
+        temp = inputDisplay.value.replace("ln" + logstr, logans);
+        inputDisplay.value = temp;
+        logFlag = 1;
+        logstr = "";
+        logans = "";
+        lnVar = 0;
+      } else {
+        logans = Math.log10(logstr);
+        let temp = inputDisplay.value;
+        temp = inputDisplay.value.replace("log" + logstr, logans);
+        inputDisplay.value = temp;
+        logFlag = 1;
+        logstr = "";
+        logans = "";
+      }
+    }
+
     if (btn.textContent === "÷") {
       inputDisplay.value += "/";
     } else if (btn.textContent === "×") {
       inputDisplay.value += "*";
-    } else if (btn.matches(".printVal") && sqr == 0) {
+    } else if (btn.matches(".printVal") && sqr == 0 && logVar == 0) {
       inputDisplay.value += content;
     }
   });
@@ -104,8 +140,13 @@ backSpace.addEventListener(
 
 square.addEventListener("click", () => {
   try {
-    let temp = eval(inputDisplay.value);
-    inputDisplay.value = temp * temp;
+    if (square.innerHTML.includes("2")) {
+      let temp = eval(inputDisplay.value);
+      inputDisplay.value = temp * temp;
+    } else {
+      let temp = eval(inputDisplay.value);
+      inputDisplay.value = temp * temp * temp;
+    }
   } catch {
     err();
   }
@@ -174,7 +215,11 @@ xToY.addEventListener("click", () => {});
 
 tenToX.addEventListener("click", () => {
   try {
-    inputDisplay.value += "10**";
+    if (tenToX.innerHTML.includes("x<sup>10")) {
+      inputDisplay.value += "**10";
+    } else {
+      inputDisplay.value += "10**";
+    }
   } catch {
     err();
   }
@@ -183,21 +228,30 @@ tenToX.addEventListener("click", () => {
 log.addEventListener("click", () => {
   try {
     inputDisplay.value += "log";
+    logVar++;
   } catch {
     err();
   }
 });
 
+ln.addEventListener("click", () => {
+  try {
+    inputDisplay.value += "ln";
+    logVar = 1;
+    lnVar = 1;
+  } catch {
+    err();
+  }
+});
 
-mPlus.addEventListener("click",()=>{
+mPlus.addEventListener("click", () => {
   document.getElementById("MC").disabled = false;
   document.getElementById("MR").disabled = false;
-})
-mMinus.addEventListener("click",()=>{
+});
+mMinus.addEventListener("click", () => {
   document.getElementById("MC").disabled = false;
   document.getElementById("MR").disabled = false;
-})
-
+});
 
 // sin.addEventListener("click",(e)=>{
 //   try{
@@ -206,3 +260,20 @@ mMinus.addEventListener("click",()=>{
 //     err();
 //   }
 // })
+
+let toggleCounter = 0;
+change.addEventListener("click", () => {
+  try {
+    if (toggleCounter == 0) {
+      square.innerHTML = "x<sup>3</sup>";
+      tenToX.innerHTML = "x<sup>10</sup>";
+      toggleCounter = 1;
+    } else {
+      square.innerHTML = "x<sup>2</sup>";
+      tenToX.innerHTML = "10<sup>x</sup>";
+      toggleCounter = 0;
+    }
+  } catch {
+    err();
+  }
+});
