@@ -18,6 +18,8 @@ const log = document.getElementById("log");
 const ln = document.getElementById("ln");
 const alternate = document.getElementById("alternate");
 
+const DEG = document.getElementById("DEG");
+
 const MC = (document.getElementById("MC").disabled = true);
 const MR = (document.getElementById("MR").disabled = true);
 
@@ -26,6 +28,11 @@ const mMinus = document.getElementById("mMinus");
 const MS = document.getElementById("MS");
 
 const change = document.getElementById("change");
+
+const functions = document.getElementById("functions");
+const trigonometry = document.getElementById("trigonometry");
+
+const pi = Math.PI;
 
 let sqr = 0;
 let str = "";
@@ -40,9 +47,55 @@ let logFlag = 0;
 let lnVar = 0;
 function calLog() {}
 
+let trigo = 0;
+let trigostr = "";
+let trigoans;
+let trigoFlag = 0;
+let trigoVal;
+
+let DRbtn = "DEG";
+
 for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
     const content = e.target.textContent;
+
+    if (trigo == 1) {
+      if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
+        trigo = 0;
+        trigoans = 1;
+      } else {
+        inputDisplay.value += content;
+        trigostr += content;
+      }
+    }
+    if (trigoans == 1) {
+      if (trigoVal == "sin") {
+        trigoans = Math.sin((trigostr * pi) / 180);
+        if (DRbtn == "RAD") {
+          trigoans = Math.sin(trigostr);
+        }
+      } else if (trigoVal == "cos") {
+        trigoans = Math.cos((trigostr * pi) / 180);
+        if (DRbtn == "RAD") {
+          trigoans = Math.cos(trigostr);
+        }
+      } else {
+        trigoans = Math.tan((trigostr * pi) / 180);
+        if (DRbtn == "RAD") {
+          trigoans = Math.tan(trigostr);
+        }
+      }
+
+      let temp = inputDisplay.value;
+      console.log(temp);
+      temp = inputDisplay.value.replace(trigoVal + trigostr, trigoans);
+      console.log(temp);
+      inputDisplay.value = temp;
+      trigoFlag = 1;
+      trigostr = "";
+      trigoans = "";
+    }
+
     if (sqr == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
         sqr = 0;
@@ -97,7 +150,12 @@ for (let btn of buttonSelected) {
       inputDisplay.value += "/";
     } else if (btn.textContent === "×") {
       inputDisplay.value += "*";
-    } else if (btn.matches(".printVal") && sqr == 0 && logVar == 0) {
+    } else if (
+      btn.matches(".printVal") &&
+      sqr == 0 &&
+      logVar == 0 &&
+      trigo == 0
+    ) {
       inputDisplay.value += content;
     }
   });
@@ -244,15 +302,6 @@ ln.addEventListener("click", () => {
   }
 });
 
-mPlus.addEventListener("click", () => {
-  document.getElementById("MC").disabled = false;
-  document.getElementById("MR").disabled = false;
-});
-mMinus.addEventListener("click", () => {
-  document.getElementById("MC").disabled = false;
-  document.getElementById("MR").disabled = false;
-});
-
 // sin.addEventListener("click",(e)=>{
 //   try{
 //     inputDisplay.value+= "e.target.textContent";
@@ -275,5 +324,97 @@ change.addEventListener("click", () => {
     }
   } catch {
     err();
+  }
+});
+
+alternate.addEventListener("click", () => {
+  try {
+    let str = inputDisplay.value;
+    if (str[0] == "-") {
+      inputDisplay.value = str.slice(1);
+    } else {
+      inputDisplay.value = "-" + inputDisplay.value;
+    }
+  } catch {
+    err();
+  }
+});
+
+mPlus.addEventListener("click", () => {
+  document.getElementById("MC").disabled = false;
+  document.getElementById("MR").disabled = false;
+  let temp = eval(inputDisplay.value);
+  let MS = localStorage.getItem("key");
+
+  localStorage.setItem("key", Number(MS) + Number(temp));
+  inputDisplay.value = "";
+});
+mMinus.addEventListener("click", () => {
+  document.getElementById("MC").disabled = false;
+  document.getElementById("MR").disabled = false;
+  let temp = eval(inputDisplay.value);
+  let MS = localStorage.getItem("key");
+
+  localStorage.setItem("key", Number(MS) - Number(temp));
+  inputDisplay.value = "";
+});
+
+MS.addEventListener("click", () => {
+  document.getElementById("MC").disabled = false;
+  document.getElementById("MR").disabled = false;
+  let temp = inputDisplay.value;
+  localStorage.setItem("key", Number(temp));
+  inputDisplay.value = "";
+});
+document.getElementById("MR").addEventListener("click", () => {
+  inputDisplay.value = localStorage.getItem("key");
+});
+
+document.getElementById("MC").addEventListener("click", () => {
+  inputDisplay.value = localStorage.removeItem("key");
+  inputDisplay.value = "";
+  document.getElementById("MC").disabled = true;
+  document.getElementById("MR").disabled = true;
+});
+
+functions.addEventListener("change", () => {
+  let temp;
+  if (document.querySelector(".fun").value == "floor") {
+    temp = eval(inputDisplay.value);
+
+    inputDisplay.value = Math.floor(temp);
+    this.selectedIndex = 0;
+  } else if (document.querySelector(".fun").value == "cell") {
+    temp = eval(inputDisplay.value);
+    inputDisplay.value = Math.ceil(temp);
+  } else if (document.querySelector(".fun").value == "rand") {
+    inputDisplay.value = Math.random();
+  }
+});
+
+trigonometry.addEventListener("change", () => {
+  let temp;
+  if (document.querySelector(".trigo").value == "sin") {
+    inputDisplay.value += "sin";
+    trigo = 1;
+    trigoVal = "sin";
+  } else if (document.querySelector(".trigo").value == "cos") {
+    inputDisplay.value += "cos";
+    trigo = 1;
+    trigoVal = "cos";
+  } else if (document.querySelector(".trigo").value == "tan") {
+    inputDisplay.value += "tan";
+    trigo = 1;
+    trigoVal = "tan";
+  }
+});
+
+DEG.addEventListener("click", () => {
+  if (DEG.innerHTML == "DEG") {
+    DEG.innerHTML = "RAD";
+    DRbtn = "RAD";
+  } else {
+    DEG.innerHTML = "DEG";
+    DRbtn = "DEG";
   }
 });
