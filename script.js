@@ -32,6 +32,11 @@ const change = document.getElementById("change");
 const functions = document.getElementById("functions");
 const trigonometry = document.getElementById("trigonometry");
 
+const decimal = document.getElementById("decimal");
+const deci = 0;
+
+
+
 const pi = Math.PI;
 
 let sqr = 0;
@@ -45,7 +50,7 @@ let logstr = "";
 let logFlag = 0;
 
 let lnVar = 0;
-function calLog() {}
+
 
 let trigo = 0;
 let trigostr = "";
@@ -56,9 +61,18 @@ let trigoVal;
 let globeVal;
 
 let DRbtn = "DEG";
+
+decimal.addEventListener("click",()=>{
+  
+})
+
 for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
     const content = e.target.textContent;
+
+    
+    
+
 
     if (trigo == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
@@ -125,6 +139,11 @@ for (let btn of buttonSelected) {
       globeVal = Math.log(Math.E);
       flag = 2;
     }
+    if (content.includes("Π")){
+      logVar = 0;
+      globeVal = Math.log(Math.PI);
+      flag = 2;
+    }
 
     if (logVar == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
@@ -164,9 +183,21 @@ for (let btn of buttonSelected) {
       btn.matches(".printVal") &&
       sqr == 0 &&
       logVar == 0 &&
-      trigo == 0
+      trigo == 0 
     ) {
       inputDisplay.value += content;
+      // if(content == "."){
+      //   if(inputDisplay.value.includes("..")){
+      //     deci++;
+      //   }
+      //   else{
+      //     inputDisplay.value += content;
+      //     deci = 1;
+      //   }
+      // }
+
+
+
       if (inputDisplay.value.includes("+-")) {
         // console.log(show[show.length - 2]);
         let arr = inputDisplay.value.split("");
@@ -231,6 +262,7 @@ equal.addEventListener("click", (e) => {
       inputDisplay.value = eval(inputDisplay.value);
     } else if (flag == 2) {
       inputDisplay.value = globeVal;
+      flag = 0;
     } else {
       inputDisplay.value = eval(inputDisplay.value);
     }
