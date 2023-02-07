@@ -38,7 +38,7 @@ let sqr = 0;
 let str = "";
 let ans;
 let flag = 0;
-
+let cnt = 0;
 let logVar = 0;
 let logans;
 let logstr = "";
@@ -53,14 +53,18 @@ let trigoans;
 let trigoFlag = 0;
 let trigoVal;
 
-let DRbtn = "DEG";
+let globeVal;
 
+let DRbtn = "DEG";
 for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
     const content = e.target.textContent;
 
     if (trigo == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
+        // if (content == e){
+
+        // }
         trigo = 0;
         trigoans = 1;
       } else {
@@ -116,6 +120,12 @@ for (let btn of buttonSelected) {
       //   inputDisplay.value = ans;
     }
 
+    if (content.includes("e")) {
+      logVar = 0;
+      globeVal = Math.log(Math.E);
+      flag = 2;
+    }
+
     if (logVar == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
         logVar = 0;
@@ -157,6 +167,49 @@ for (let btn of buttonSelected) {
       trigo == 0
     ) {
       inputDisplay.value += content;
+      if (inputDisplay.value.includes("+-")) {
+        // console.log(show[show.length - 2]);
+        let arr = inputDisplay.value.split("");
+        let long = arr.length - 2;
+        let last = arr[arr.length - 1];
+        arr.splice(long, 2, last);
+        let str = arr.join("");
+        inputDisplay.value = str;
+      }
+      if (inputDisplay.value.includes("-+")) {
+        // console.log(show[show.length - 2]);
+        let arr = inputDisplay.value.split("");
+        let long = arr.length - 2;
+        let last = arr[arr.length - 1];
+        arr.splice(long, 2, last);
+        let str = arr.join("");
+        inputDisplay.value = str;
+      }
+      if (inputDisplay.value.includes("--")) {
+        // console.log(show[show.length - 2]);
+        let arr = inputDisplay.value.split("");
+        let long = arr.length - 2;
+        let last = arr[arr.length - 1];
+        arr.splice(long, 2, last);
+        let str = arr.join("");
+        inputDisplay.value = str;
+      }
+      if (inputDisplay.value.includes("++")) {
+        // console.log(show[show.length - 2]);
+        let arr = inputDisplay.value.split("");
+        let long = arr.length - 2;
+        let last = arr[arr.length - 1];
+        arr.splice(long, 2, last);
+        let str = arr.join("");
+        inputDisplay.value = str;
+      }
+
+      //else if (btn.matches(".op") && cnt == 1) {
+      //   cnt = 0;
+
+      // } else {
+      // }
+      //
     }
   });
 }
@@ -176,6 +229,8 @@ equal.addEventListener("click", (e) => {
     //    }
     if (flag == 1) {
       inputDisplay.value = eval(inputDisplay.value);
+    } else if (flag == 2) {
+      inputDisplay.value = globeVal;
     } else {
       inputDisplay.value = eval(inputDisplay.value);
     }
@@ -186,7 +241,14 @@ equal.addEventListener("click", (e) => {
 
 clear.addEventListener("click", () => (inputDisplay.value = ""));
 pie.addEventListener("click", () => (inputDisplay.value += Math.PI));
-euler.addEventListener("click", () => (inputDisplay.value += Math.E));
+euler.addEventListener("click", () => {
+  // if (logVar == 1 || lnVar == 1) {
+  //   inputDisplay.value += "( + Math.E + )";
+  // } else {
+  //   inputDisplay.value += Math.E;
+  // }
+  inputDisplay.value += Math.E;
+});
 backSpace.addEventListener(
   "click",
   () =>
