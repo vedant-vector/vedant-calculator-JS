@@ -61,9 +61,9 @@ let trigoVal;
 let globeVal;
 
 let DRbtn = "DEG";
-
+let deciFlag = 0;
 decimal.addEventListener("click",()=>{
-  
+  deciFlag = 1;
 })
 
 for (let btn of buttonSelected) {
@@ -196,6 +196,26 @@ for (let btn of buttonSelected) {
       //   }
       // }
 
+      if(content.includes(".")){
+        let arr = inputDisplay.value.split("");
+        
+        for(let i = arr.length-1 ; i>0 ;i--){
+          if(arr[i]== "+"){
+            deciFlag = 1;
+            break;
+          }
+          if(arr[i]== "."){
+            arr.slice(0,arr.length-2)
+            deciFlag = 1;
+            break;
+          }
+
+        }
+        let str = arr.join("");
+        if(deciFlag == 1){
+          inputDisplay.value = str;
+        }
+      }
 
 
       if (inputDisplay.value.includes("+-")) {
