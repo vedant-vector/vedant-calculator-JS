@@ -1,3 +1,5 @@
+// Creating constant for different elements
+
 const buttonSelected = document.querySelectorAll(".clickBtn");
 const inputDisplay = document.querySelector(".inputDisplay");
 const equal = document.querySelector("#equalTo");
@@ -17,26 +19,17 @@ const tenToX = document.getElementById("tenToX");
 const log = document.getElementById("log");
 const ln = document.getElementById("ln");
 const alternate = document.getElementById("alternate");
-
 const DEG = document.getElementById("DEG");
-
 const MC = (document.getElementById("MC").disabled = true);
 const MR = (document.getElementById("MR").disabled = true);
-
 const mPlus = document.getElementById("mPlus");
 const mMinus = document.getElementById("mMinus");
 const MS = document.getElementById("MS");
-
 const change = document.getElementById("change");
-
 const functions = document.getElementById("functions");
 const trigonometry = document.getElementById("trigonometry");
-
 const decimal = document.getElementById("decimal");
 const deci = 0;
-
-
-
 const pi = Math.PI;
 
 let sqr = 0;
@@ -48,37 +41,35 @@ let logVar = 0;
 let logans;
 let logstr = "";
 let logFlag = 0;
-
 let lnVar = 0;
-
-
 let trigo = 0;
 let trigostr = "";
 let trigoans;
 let trigoFlag = 0;
 let trigoVal;
-
 let globeVal;
-
 let DRbtn = "DEG";
 let deciFlag = 0;
-decimal.addEventListener("click",()=>{
+let deciCnt = 0;
+
+function consecutive() {
+  let arr = inputDisplay.value.split("");
+  let long = arr.length - 2;
+  let last = arr[arr.length - 1];
+  arr.splice(long, 2, last);
+  let str = arr.join("");
+  inputDisplay.value = str;
+}
+decimal.addEventListener("click", () => {
   deciFlag = 1;
-})
+});
 
 for (let btn of buttonSelected) {
   btn.addEventListener("click", (e) => {
     const content = e.target.textContent;
 
-    
-    
-
-
     if (trigo == 1) {
       if (btn.matches(".printVal") !== true || btn.matches(".op") == true) {
-        // if (content == e){
-
-        // }
         trigo = 0;
         trigoans = 1;
       } else {
@@ -131,7 +122,6 @@ for (let btn of buttonSelected) {
       console.log(temp);
       inputDisplay.value = temp;
       flag = 1;
-      //   inputDisplay.value = ans;
     }
 
     if (content.includes("e")) {
@@ -139,7 +129,7 @@ for (let btn of buttonSelected) {
       globeVal = Math.log(Math.E);
       flag = 2;
     }
-    if (content.includes("Π")){
+    if (content.includes("Π")) {
       logVar = 0;
       globeVal = Math.log(Math.PI);
       flag = 2;
@@ -183,84 +173,62 @@ for (let btn of buttonSelected) {
       btn.matches(".printVal") &&
       sqr == 0 &&
       logVar == 0 &&
-      trigo == 0 
+      trigo == 0
     ) {
       inputDisplay.value += content;
-      // if(content == "."){
-      //   if(inputDisplay.value.includes("..")){
-      //     deci++;
-      //   }
-      //   else{
-      //     inputDisplay.value += content;
-      //     deci = 1;
-      //   }
-      // }
 
-      if(content.includes(".")){
-        let arr = inputDisplay.value.split("");
-        
-        for(let i = arr.length-1 ; i>0 ;i--){
-          if(arr[i]== "+"){
-            deciFlag = 1;
+      if (content.includes(".")) {
+        let arr = inputDisplay.value;
+        let index;
+        for (let i = arr.length; i >= 0; i--) {
+          if (
+            arr[i] == "+" ||
+            arr[i] == "-" ||
+            arr[i] == "*" ||
+            arr[i] == "/"
+          ) {
+            index = i;
+            deciCnt = 0;
             break;
           }
-          if(arr[i]== "."){
-            arr.slice(0,arr.length-2)
-            deciFlag = 1;
-            break;
-          }
-
         }
-        let str = arr.join("");
-        if(deciFlag == 1){
-          inputDisplay.value = str;
+        for (let j = arr.length - 1; j >= index; j--) {
+          if (arr[j] == ".") {
+            deciCnt++;
+            if (deciCnt > 1) {
+              inputDisplay.value = arr.slice(0, arr.length - 1);
+            }
+          }
         }
       }
-
+      if (inputDisplay.value.includes("..")) {
+        inputDisplay.value = inputDisplay.value.slice(
+          0,
+          inputDisplay.value.length - 1
+        );
+      }
 
       if (inputDisplay.value.includes("+-")) {
-        // console.log(show[show.length - 2]);
-        let arr = inputDisplay.value.split("");
-        let long = arr.length - 2;
-        let last = arr[arr.length - 1];
-        arr.splice(long, 2, last);
-        let str = arr.join("");
-        inputDisplay.value = str;
+        consecutive();
       }
       if (inputDisplay.value.includes("-+")) {
-        // console.log(show[show.length - 2]);
-        let arr = inputDisplay.value.split("");
-        let long = arr.length - 2;
-        let last = arr[arr.length - 1];
-        arr.splice(long, 2, last);
-        let str = arr.join("");
-        inputDisplay.value = str;
+        consecutive();
       }
       if (inputDisplay.value.includes("--")) {
-        // console.log(show[show.length - 2]);
-        let arr = inputDisplay.value.split("");
-        let long = arr.length - 2;
-        let last = arr[arr.length - 1];
-        arr.splice(long, 2, last);
-        let str = arr.join("");
-        inputDisplay.value = str;
+        consecutive();
       }
       if (inputDisplay.value.includes("++")) {
-        // console.log(show[show.length - 2]);
-        let arr = inputDisplay.value.split("");
-        let long = arr.length - 2;
-        let last = arr[arr.length - 1];
-        arr.splice(long, 2, last);
-        let str = arr.join("");
-        inputDisplay.value = str;
+        consecutive();
       }
-
-      //else if (btn.matches(".op") && cnt == 1) {
-      //   cnt = 0;
-
-      // } else {
-      // }
-      //
+      if (inputDisplay.value.includes("**")) {
+        consecutive();
+      }
+      if (inputDisplay.value.includes("//")) {
+        consecutive();
+      }
+      if (inputDisplay.value.includes("+*")) {
+        consecutive();
+      }
     }
   });
 }
@@ -269,15 +237,10 @@ function err() {
   inputDisplay.value = "ERROR";
 }
 
+// Event Listner for different buttons
+
 equal.addEventListener("click", (e) => {
   try {
-    //     let cnt =0;
-    //     let str = "";
-    //    for(let i =0;i<inputDisplay.value-1;i++){
-    //     if(inputDisplay.value == "|"){
-    //         str.append(inputDisplay[i+1])
-    //     }
-    //    }
     if (flag == 1) {
       inputDisplay.value = eval(inputDisplay.value);
     } else if (flag == 2) {
@@ -294,11 +257,6 @@ equal.addEventListener("click", (e) => {
 clear.addEventListener("click", () => (inputDisplay.value = ""));
 pie.addEventListener("click", () => (inputDisplay.value += Math.PI));
 euler.addEventListener("click", () => {
-  // if (logVar == 1 || lnVar == 1) {
-  //   inputDisplay.value += "( + Math.E + )";
-  // } else {
-  //   inputDisplay.value += Math.E;
-  // }
   inputDisplay.value += Math.E;
 });
 backSpace.addEventListener(
@@ -416,14 +374,6 @@ ln.addEventListener("click", () => {
   }
 });
 
-// sin.addEventListener("click",(e)=>{
-//   try{
-//     inputDisplay.value+= "e.target.textContent";
-//   }catch{
-//     err();
-//   }
-// })
-
 let toggleCounter = 0;
 change.addEventListener("click", () => {
   try {
@@ -532,3 +482,5 @@ DEG.addEventListener("click", () => {
     DRbtn = "DEG";
   }
 });
+
+// End of the Code
